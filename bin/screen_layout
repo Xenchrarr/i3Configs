@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Manage logout with rofi
+option=`echo -e "laptop\nhome\nwork" | rofi -width 600 -dmenu -p system:`
+case $option in
+    laptop)
+        ~/.screenlayout/layout_laptop.sh 
+        ;;
+    home)
+        ~/.screenlayout/layout_home.sh  
+        ;;
+    work)
+       ~/.screenlayout/layout_work.sh  
+        ;;
+esac

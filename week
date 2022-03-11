@@ -1,0 +1,2 @@
+WEEK=$(date '+week %-V of %Y')
+echo "$WEEK  " 

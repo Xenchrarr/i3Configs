@@ -5,7 +5,7 @@ if [[ -n $BLOCK_INSTANCE ]]; then
   INTERFACE=$BLOCK_INSTANCE
 else
   while read -a Line; do
-    if [[ ${Line[0]} =~ default ]]; then
+    if [[ ${Line[0]} == default ]]; then
       printf '%s' "${Line[4]}"
 
       break

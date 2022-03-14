@@ -4,7 +4,13 @@
 if [[ -n $BLOCK_INSTANCE ]]; then
   INTERFACE=$BLOCK_INSTANCE
 else
-  INTERFACE=$(ip route | awk '/^default/ { print $5 ; exit }')
+  while read -a Line; do
+    if [[ ${Line[0]} =~ default ]]; then
+      printf '%s' "${Line[4]}"
+
+      break
+    fi
+  done <<< "$(ip route)"
 fi
 
 # # if the connection is down, the corresponding block should not be displayed.
@@ -21,7 +27,7 @@ read rx < "/sys/class/net/${INTERFACE}/statistics/rx_bytes"
 read tx < "/sys/class/net/${INTERFACE}/statistics/tx_bytes"
 
 # get time
-time=$(date +%s)
+printf -v time '%(%s)T' -1
 
 # write current data if file does not exist. Do not exit, this will cause
 # problems if this file is sourced instead of executed as another process.
@@ -68,8 +74,8 @@ else
   echo -n "${rx_kib}K↓"
 fi
 
-# mouse buttons  
+# mouse buttons
 case $BLOCK_BUTTON in
     1) tm-cli ;; # transmission-remote-cli
-    3) rofi-connm # rofi connection manager 
+    3) rofi-connm # rofi connection manager
 esac
